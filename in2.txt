@@ -1,0 +1,9 @@
+1|Krzysztof|Karon|456 777 000|krzysztof_karon@poczta.pl|wRealu24 Warszawa
+2|Anna|Mucha|123 123 123|anna_mucha@praca.pl|123 456 789|Marszalkowska 124 00-008 Warszawa
+3|Krzysztof|Kowalski|999 123 123|krzysztof.kowalskia@praca.pl|Swietokrzyska 24 00-008 Warszawa
+4|Ala|Kota|666 777 888|alakota@internet.net|podMostem XX-XXX Wolka Dolna
+5|Jan|Kowalski|999 999 999|j.kowalski@gmail.com|Aleje Jerozolimskie 00-000 Warszawa
+6|Alina|Nowak|999 000 999|a.nowak@interia.pl|Wroclaw
+7|Jaroslwa|Kaczynski|888 888 888|jaroslaw.kaczynski@pis.pl|Zoliborz
+8|Marzenka|Lafirynda|888 888 888|m.lafirynda@email.com|Mragowo
+9|Wojciech|Man|12345678|w.man@polskieradio.pl|WaWa
