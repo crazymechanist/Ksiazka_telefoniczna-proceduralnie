@@ -1,8 +1,9 @@
 # depslib dependency file v1.0
-1563316030 source:d:\users\admin\desktop\projekty_c++\07.rozwijamy aplikacje\main.cpp
+1568762396 source:d:\users\admin\desktop\projekty_c++\07.rozwijamy aplikacje\main.cpp
 	<iostream>
-	<conio.h>
 	<windows.h>
-	<fstream>
+	<conio.h>
 	<vector>
+	<fstream>
+	<sstream>
 

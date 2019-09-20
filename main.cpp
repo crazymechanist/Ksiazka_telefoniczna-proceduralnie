@@ -7,49 +7,49 @@
 
 using namespace std;
 
-struct Uzytkownik {
+struct User {
     int id;
-    string nazwa, haslo;
+    string login, password;
 };
 
-struct Kontakt {
+struct Contact {
     int id=0;
-    string imie="", nazwisko="", numerTelefonu="", email="", adres="";
+    string name="", surname="", tel="", email="", address="";
 };
 
-int zapisanieKontaktu(int idOstatnioDodanegoKontaktu, vector<Kontakt> &ksiazkaKontaktow);
+int zapisanieKontaktu(int idOstatnioDodanegoKontaktu, vector<Contact> &ksiazkaKontaktow);
 
-void pokazKsiazkeKontaktow (const vector<Kontakt> &ksiazkaKontaktow);
+void pokazKsiazkeKontaktow (const vector<Contact> &ksiazkaKontaktow);
 
-void wyszukajImiennie(const vector<Kontakt> &ksiazkaKontaktow);
+void wyszukajImiennie(const vector<Contact> &ksiazkaKontaktow);
 
-void wyszukajPoNazwisku(const vector<Kontakt> &ksiazkaKontaktow);
+void wyszukajPoNazwisku(const vector<Contact> &ksiazkaKontaktow);
 
-int wczytanieTestowychKontaktow (vector<Kontakt> &ksiazkaKontaktow, int idOstatnioDodanegoKontaktu);
+int wczytanieTestowychKontaktow (vector<Contact> &ksiazkaKontaktow, int idOstatnioDodanegoKontaktu);
 
-void wczytanieKontaktowZPliku(vector<Kontakt> &ksiazkaKontaktow, int idZalogowanegoUzytkownika) ;
+void wczytanieKontaktowZPliku(vector<Contact> &ksiazkaKontaktow, int idZalogowanegoUzytkownika) ;
 
-void zapiszKontaktyDoPliku(int idOstatnioDodanegoKontaktu, vector<Kontakt> &ksiazkaKontaktow, int idZalogowanegoUzytkownika);
+void zapiszKontaktyDoPliku(int idOstatnioDodanegoKontaktu, vector<Contact> &ksiazkaKontaktow, int idZalogowanegoUzytkownika);
 
-void wyswietlKontakt (const vector<Kontakt> &ksiazkaKontaktow, int idKontaktu);
+void wyswietlKontakt (const vector<Contact> &ksiazkaKontaktow, int idKontaktu);
 
 int sprawdzIdOstatniegoKontaktu ();
 
-int usunKontakt (vector <Kontakt> &ksiazkaKontaktow);
+int usunKontakt (vector <Contact> &ksiazkaKontaktow);
 
-int edytujKontakt (vector <Kontakt> &ksiazkaKontaktow);
+int edytujKontakt (vector <Contact> &ksiazkaKontaktow);
 
 int stringToInt(string liczbaWFormacieString);
 
-int rejestracja( vector<Uzytkownik> &users, int usersCout);
+int rejestracja( vector<User> &users, int usersCout);
 
-int logowanie(const vector<Uzytkownik> uzytkownicy, int idOstatniegoUzytkownika);
+int logowanie(const vector<User> uzytkownicy, int idOstatniegoUzytkownika);
 
-void zmianaHasla(vector<Uzytkownik> &uzytkownicy, int idOstatniegoUzytkownika, int idZalogowanegoUzytkownika);
+void zmianaHasla(vector<User> &uzytkownicy, int idOstatniegoUzytkownika, int idZalogowanegoUzytkownika);
 
-void zapiszUzytkownikowDoPliku(int idOstatniegoUzytkownika, const vector<Uzytkownik> &uzytkownicy);
+void zapiszUzytkownikowDoPliku(int idOstatniegoUzytkownika, const vector<User> &uzytkownicy);
 
-int wczytanieUzytkownikowZPliku(vector<Uzytkownik> &uzytkownicy);
+int wczytanieUzytkownikowZPliku(vector<User> &uzytkownicy);
 
 string intToStringConvert (int Number );
 
@@ -57,13 +57,13 @@ bool moveToStartOfLine(std::ifstream& fs);
 
 string getLastLineInFile(std::ifstream& fs) ;
 
-void zapiszOstatniKontaktDoPliku(int idOstatnioDodanegoKontaktu, const vector<Kontakt> &ksiazkaKontaktow, int idZalogowanegoUzytkownika ) ;
+void zapiszOstatniKontaktDoPliku(int idOstatnioDodanegoKontaktu, const vector<Contact> &ksiazkaKontaktow, int idZalogowanegoUzytkownika ) ;
 
-void saveContactsToFile(int currentUserId, int contactId, const vector<Kontakt> &contactsBook );
+void saveContactsToFile(int currentUserId, int contactId, const vector<Contact> &contactsBook );
 
 int main() {
-    vector <Uzytkownik> uzytkownicy;
-    vector <Kontakt> ksiazkaKontaktow;
+    vector <User> uzytkownicy;
+    vector <Contact> ksiazkaKontaktow;
     int idZalogowanegoUzytkownika = 0;
     int idOstatniegoUzytkownika = 0;
     idOstatniegoUzytkownika = wczytanieUzytkownikowZPliku(uzytkownicy);
@@ -167,6 +167,7 @@ int main() {
                 }
                 case '7': {
                     zmianaHasla(uzytkownicy, idOstatniegoUzytkownika, idZalogowanegoUzytkownika);
+                    zapiszUzytkownikowDoPliku(idOstatniegoUzytkownika, uzytkownicy);
                     break;
                 }
                 case '8': {
@@ -191,17 +192,17 @@ int main() {
     return 0;
 }
 
-int rejestracja( vector<Uzytkownik> &users, int usersCout) {
+int rejestracja( vector<User> &users, int usersCout) {
 
-    string nazwa, haslo;
+    string login, password;
     cout << "Podaj nazwe uzytkownika: ";
-    cin >>nazwa;
+    cin >>login;
     cin.ignore();
     int i = 0;
     while (i < usersCout) {
-        if(users[i].nazwa == nazwa) {
+        if(users[i].login == login) {
             cout << "Taki uzytkownik istnieje. Wpisz inna nazwe uzytkownika: ";
-            cin >> nazwa;
+            cin >> login;
             cin.ignore();
             i = 0;
         } else {
@@ -209,11 +210,11 @@ int rejestracja( vector<Uzytkownik> &users, int usersCout) {
         }
     }
     cout << "Podaj haslo: ";
-    cin >> haslo;
+    cin >> password;
     cin.ignore();
-    Uzytkownik tempUser;
-    tempUser.nazwa = nazwa;
-    tempUser.haslo = haslo;
+    User tempUser;
+    tempUser.login = login;
+    tempUser.password = password;
     tempUser.id = usersCout + 1;
     users.push_back(tempUser);
     cout << "Konto zalozone" << endl;
@@ -221,14 +222,14 @@ int rejestracja( vector<Uzytkownik> &users, int usersCout) {
     return usersCout+1;
 }
 
-int logowanie(const vector<Uzytkownik> uzytkownicy, int idOstatniegoUzytkownika) {
-    string nazwa, haslo;
+int logowanie(const vector<User> uzytkownicy, int idOstatniegoUzytkownika) {
+    string login, password;
     cout << "Podaj login: ";
-    cin >> nazwa;
+    cin >> login;
     cin.ignore();
     int i = 0;
     while (i < idOstatniegoUzytkownika) {
-        if(uzytkownicy[i].nazwa == nazwa) {
+        if(uzytkownicy[i].login == login) {
             for (int proby = 0; proby < 3; proby++) {
                 if (proby==0) {
                     cout << "Podaj haslo:";
@@ -236,9 +237,9 @@ int logowanie(const vector<Uzytkownik> uzytkownicy, int idOstatniegoUzytkownika)
                     cout << "Podaj haslo. Pozostalo prob " << 3-proby<< ": ";
                 }
 
-                cin >> haslo;
+                cin >> password;
                 cin.ignore();
-                if (uzytkownicy[i].haslo == haslo) {
+                if (uzytkownicy[i].password == password) {
                     cout << "Zalogowales sie." << endl;
                     Sleep(1000);
                     return uzytkownicy[i].id;
@@ -255,26 +256,26 @@ int logowanie(const vector<Uzytkownik> uzytkownicy, int idOstatniegoUzytkownika)
     return 0;
 }
 
-void zmianaHasla(vector<Uzytkownik> &uzytkownicy, int idOstatniegoUzytkownika, int idZalogowanegoUzytkownika) {
-    string haslo;
+void zmianaHasla(vector<User> &uzytkownicy, int idOstatniegoUzytkownika, int idZalogowanegoUzytkownika) {
+    string password;
     cout << "Podaj nowe haslo: ";
-    cin >> haslo;
+    cin >> password;
     cin.ignore();
     for (int i=0; i<idOstatniegoUzytkownika; i++) {
         if(uzytkownicy[i].id == idZalogowanegoUzytkownika) {
-            uzytkownicy[i].haslo = haslo;
+            uzytkownicy[i].password = password;
             cout << "Haslo zostalo zmnienione" << endl;
             Sleep(1500);
         }
     }
 }
 
-void zapiszUzytkownikowDoPliku(int idOstatniegoUzytkownika, const vector<Uzytkownik> &uzytkownicy) {
+void zapiszUzytkownikowDoPliku(int idOstatniegoUzytkownika, const vector<User> &uzytkownicy) {
     fstream plik;
     string przerywnik="|";
     plik.open("Uzytkownicy.txt", ios::out);
     for (unsigned int i=0; i<uzytkownicy.size(); i++) {
-        plik<<uzytkownicy[i].id<<przerywnik<<uzytkownicy[i].nazwa<<przerywnik<<uzytkownicy[i].haslo<<endl;
+        plik<<uzytkownicy[i].id<<przerywnik<<uzytkownicy[i].login<<przerywnik<<uzytkownicy[i].password<<endl;
     }
     plik.close();
 }
@@ -284,7 +285,7 @@ int stringToInt(string liczbaWFormacieString) {
     return liczbaWFormacieInt ;
 }
 
-int wczytanieUzytkownikowZPliku(vector<Uzytkownik> &uzytkownicy) {
+int wczytanieUzytkownikowZPliku(vector<User> &uzytkownicy) {
     string linia;
     fstream plik;
     int ostatnieId=0;
@@ -294,7 +295,7 @@ int wczytanieUzytkownikowZPliku(vector<Uzytkownik> &uzytkownicy) {
         plik.close();
     } else {
         string komorkaZPliku[3];
-        Uzytkownik uzytkownikTymczasowy;
+        User uzytkownikTymczasowy;
         while (getline(plik, linia)) {
             int ilePozycji=4;
             for (int i = 0 ; i<ilePozycji-1 ; i++) {
@@ -304,8 +305,8 @@ int wczytanieUzytkownikowZPliku(vector<Uzytkownik> &uzytkownicy) {
                 linia.erase(0,pozycjaPrzerywnika+1);
             }
             uzytkownikTymczasowy.id=stringToInt(komorkaZPliku[0]);
-            uzytkownikTymczasowy.nazwa=komorkaZPliku[1];
-            uzytkownikTymczasowy.haslo=komorkaZPliku[2];
+            uzytkownikTymczasowy.login=komorkaZPliku[1];
+            uzytkownikTymczasowy.password=komorkaZPliku[2];
             ostatnieId=stringToInt(komorkaZPliku[0]);
             uzytkownicy.push_back(uzytkownikTymczasowy);
         }
@@ -314,27 +315,27 @@ int wczytanieUzytkownikowZPliku(vector<Uzytkownik> &uzytkownicy) {
     return ostatnieId;
 }
 
-int zapisanieKontaktu(int idOstatnioDodanegoKontaktu, vector<Kontakt> &ksiazkaKontaktow) {
+int zapisanieKontaktu(int idOstatnioDodanegoKontaktu, vector<Contact> &ksiazkaKontaktow) {
     idOstatnioDodanegoKontaktu++;
-    Kontakt tempKontakt;
-    tempKontakt.id = idOstatnioDodanegoKontaktu;
+    Contact tempContact;
+    tempContact.id = idOstatnioDodanegoKontaktu;
     cout << "ZAPISYWANIE NOWEGO KONTAKTU:" << endl;
     cout << "Imie:";
-    getline(cin,tempKontakt.imie);
+    getline(cin,tempContact.name);
     cout << "Nazwisko:";
-    getline(cin,tempKontakt.nazwisko);
+    getline(cin,tempContact.surname);
     cout << "Numer telefonu:";
-    getline(cin,tempKontakt.numerTelefonu);
+    getline(cin,tempContact.tel);
     cout << "Adres email:";
-    getline(cin,tempKontakt.email);
+    getline(cin,tempContact.email);
     cout << "Adres zamieszkania:";
-    getline(cin,tempKontakt.adres);
-    ksiazkaKontaktow.push_back(tempKontakt);
+    getline(cin,tempContact.address);
+    ksiazkaKontaktow.push_back(tempContact);
     cout << "Kontakt zapisany!";
     return idOstatnioDodanegoKontaktu;
 }
 
-void wczytanieKontaktowZPliku(vector<Kontakt> &ksiazkaKontaktow, int idZalogowanegoUzytkownika) {
+void wczytanieKontaktowZPliku(vector<Contact> &ksiazkaKontaktow, int idZalogowanegoUzytkownika) {
     string linia;
     fstream plik;
     plik.open("KsiazkaAdresowa.txt", ios::in);
@@ -343,7 +344,7 @@ void wczytanieKontaktowZPliku(vector<Kontakt> &ksiazkaKontaktow, int idZalogowan
         plik.close();
     } else {
         string komorkaZPliku[6];
-        Kontakt tempKontakt;
+        Contact tempContact;
         while (getline(plik, linia)) {
 
             int ilePozycji=7;
@@ -354,20 +355,20 @@ void wczytanieKontaktowZPliku(vector<Kontakt> &ksiazkaKontaktow, int idZalogowan
                 linia.erase(0,pozycjaPrzerywnika+1);
             }
             if (stringToInt(komorkaZPliku[1]) == idZalogowanegoUzytkownika) {
-                tempKontakt.id=stringToInt(komorkaZPliku[0]);
-                tempKontakt.imie=komorkaZPliku[2];
-                tempKontakt.nazwisko=komorkaZPliku[3];
-                tempKontakt.numerTelefonu=komorkaZPliku[4];
-                tempKontakt.email=komorkaZPliku[5];
-                tempKontakt.adres=linia;
-                ksiazkaKontaktow.push_back(tempKontakt);
+                tempContact.id=stringToInt(komorkaZPliku[0]);
+                tempContact.name=komorkaZPliku[2];
+                tempContact.surname=komorkaZPliku[3];
+                tempContact.tel=komorkaZPliku[4];
+                tempContact.email=komorkaZPliku[5];
+                tempContact.address=linia;
+                ksiazkaKontaktow.push_back(tempContact);
             }
         }
     }
     plik.close();
 }
 
-void pokazKsiazkeKontaktow (const vector<Kontakt> &ksiazkaKontaktow) {
+void pokazKsiazkeKontaktow (const vector<Contact> &ksiazkaKontaktow) {
     cout << "TWOJE KONTAKTY:" << endl;
     for (unsigned int i=0; i<ksiazkaKontaktow.size(); i++) {
         wyswietlKontakt (ksiazkaKontaktow, i );
@@ -378,13 +379,13 @@ void pokazKsiazkeKontaktow (const vector<Kontakt> &ksiazkaKontaktow) {
     system("cls");
 }
 
-void wyszukajImiennie(const vector<Kontakt> &ksiazkaKontaktow) {
+void wyszukajImiennie(const vector<Contact> &ksiazkaKontaktow) {
     string fraza;
     bool czyZnaleziono=0;
     cout<<"Wpisz fraze do wyszukania: ";
     getline( cin, fraza);
     for (unsigned int i=0; i<ksiazkaKontaktow.size(); i++) {
-        size_t pozycja = ksiazkaKontaktow[i].imie.find(fraza);
+        size_t pozycja = ksiazkaKontaktow[i].name.find(fraza);
         if (pozycja!=string::npos) {
             czyZnaleziono=1;
             wyswietlKontakt (ksiazkaKontaktow, i );
@@ -400,13 +401,13 @@ void wyszukajImiennie(const vector<Kontakt> &ksiazkaKontaktow) {
     getch();
 }
 
-void wyszukajPoNazwisku(const vector<Kontakt> &ksiazkaKontaktow) {
+void wyszukajPoNazwisku(const vector<Contact> &ksiazkaKontaktow) {
     string fraza;
     bool czyZnaleziono=0;
     cout<<"Wpisz fraze do wyszukania: ";
     getline( cin, fraza);
     for (unsigned int i=0; i<ksiazkaKontaktow.size(); i++) {
-        size_t pozycja = ksiazkaKontaktow[i].nazwisko.find(fraza);
+        size_t pozycja = ksiazkaKontaktow[i].surname.find(fraza);
         if (pozycja!=string::npos) {
             czyZnaleziono=1;
             wyswietlKontakt (ksiazkaKontaktow, i );
@@ -423,13 +424,13 @@ void wyszukajPoNazwisku(const vector<Kontakt> &ksiazkaKontaktow) {
     getch();
 }
 
-void wyswietlKontakt (const vector<Kontakt> &ksiazkaKontaktow, int idKontaktu) {
+void wyswietlKontakt (const vector<Contact> &ksiazkaKontaktow, int idKontaktu) {
     cout <<ksiazkaKontaktow[idKontaktu].id << endl;
-    cout << "Imie: " <<ksiazkaKontaktow[idKontaktu].imie << endl;
-    cout << "Nazwisko: "<<ksiazkaKontaktow[idKontaktu].nazwisko<< endl;
-    cout << "Numer telefonu: " <<ksiazkaKontaktow[idKontaktu].numerTelefonu << endl;
+    cout << "Imie: " <<ksiazkaKontaktow[idKontaktu].name << endl;
+    cout << "Nazwisko: "<<ksiazkaKontaktow[idKontaktu].surname<< endl;
+    cout << "Numer telefonu: " <<ksiazkaKontaktow[idKontaktu].tel << endl;
     cout << "Adres email: "<<ksiazkaKontaktow[idKontaktu].email<<endl;
-    cout << "Adres zamieszkania: "<<ksiazkaKontaktow[idKontaktu].adres<<endl;
+    cout << "Adres zamieszkania: "<<ksiazkaKontaktow[idKontaktu].address<<endl;
 }
 
 int sprawdzIdOstatniegoKontaktu () {
@@ -457,7 +458,7 @@ int sprawdzIdOstatniegoKontaktu () {
     return id;
 }
 
-int usunKontakt (vector <Kontakt> &ksiazkaKontaktow) {
+int usunKontakt (vector <Contact> &ksiazkaKontaktow) {
     int idDoUsuniecia = -1, i=0;
     cout << "Podaj numer id adresata, ktorego chcesz usunac" <<endl;
     cin >> idDoUsuniecia;
@@ -482,7 +483,7 @@ int usunKontakt (vector <Kontakt> &ksiazkaKontaktow) {
     return idDoUsuniecia;
 }
 
-int edytujKontakt (vector <Kontakt> &ksiazkaKontaktow) {
+int edytujKontakt (vector <Contact> &ksiazkaKontaktow) {
     int idDoEdycji = -1, i=0;
     cout << "Podaj numer id adresata, ktorego chcesz edytowac" <<endl;
     cin >> idDoEdycji;
@@ -507,17 +508,17 @@ int edytujKontakt (vector <Kontakt> &ksiazkaKontaktow) {
         switch(wybor) {
         case '1':
             cout << "Imie: ";
-            cin >> ksiazkaKontaktow[i].imie;
+            cin >> ksiazkaKontaktow[i].name;
             cin.ignore();
             break;
         case '2':
             cout << "Nazwisko: ";
-            cin >> ksiazkaKontaktow[i].nazwisko;
+            cin >> ksiazkaKontaktow[i].surname;
             cin.ignore();
             break;
         case '3':
             cout << "Numer telefonu: ";
-            getline(cin, ksiazkaKontaktow[i].numerTelefonu);
+            getline(cin, ksiazkaKontaktow[i].tel);
             cin.ignore();
             break;
         case '4':
@@ -527,7 +528,7 @@ int edytujKontakt (vector <Kontakt> &ksiazkaKontaktow) {
             break;
         case '5':
             cout << "Adres: ";
-            getline(cin,ksiazkaKontaktow[i].adres);
+            getline(cin,ksiazkaKontaktow[i].address);
             break;
         default:
             ;
@@ -573,28 +574,28 @@ string getLastLineInFile(std::ifstream& fs) {
     return lastline;
 }
 
-void zapiszOstatniKontaktDoPliku(int idOstatnioDodanegoKontaktu, const vector<Kontakt> &ksiazkaKontaktow, int idZalogowanegoUzytkownika ) {
+void zapiszOstatniKontaktDoPliku(int idOstatnioDodanegoKontaktu, const vector<Contact> &ksiazkaKontaktow, int idZalogowanegoUzytkownika ) {
     fstream plik;
     string przerywnik="|";
     plik.open("KsiazkaAdresowa.txt", ios::app);
     int i=ksiazkaKontaktow.size()-1;
     plik<<ksiazkaKontaktow[i].id<<przerywnik
         <<idZalogowanegoUzytkownika<<przerywnik
-        <<ksiazkaKontaktow[i].imie<<przerywnik
-        <<ksiazkaKontaktow[i].nazwisko<<przerywnik
-        <<ksiazkaKontaktow[i].numerTelefonu<<przerywnik
+        <<ksiazkaKontaktow[i].name<<przerywnik
+        <<ksiazkaKontaktow[i].surname<<przerywnik
+        <<ksiazkaKontaktow[i].tel<<przerywnik
         <<ksiazkaKontaktow[i].email<<przerywnik
-        <<ksiazkaKontaktow[i].adres<<endl;
+        <<ksiazkaKontaktow[i].address<<endl;
     plik.close();
 }
 
-void saveContactsToFile(int currentUserId, int contactId, const vector<Kontakt> &contactsBook ) {
+void saveContactsToFile(int currentUserId, int contactId, const vector<Contact> &contactsBook ) {
     string line,
            StrFirstNumber = intToStringConvert(contactId),
            StrSecondNumber = intToStringConvert(currentUserId) ;
     string newFileName = "tempKsiazkaKontaktow.txt",
            oldFileName = "KsiazkaAdresowa.txt",
-           przerywnik="|";
+           separator="|";
     fstream oldFile,
             newFile;
     oldFile.open(oldFileName.c_str(), ios::in);
@@ -605,18 +606,18 @@ void saveContactsToFile(int currentUserId, int contactId, const vector<Kontakt> 
     }
 
     while (getline(oldFile, line)) {
-        string phrase=StrFirstNumber+przerywnik+StrSecondNumber+przerywnik;
+        string phrase=StrFirstNumber+separator+StrSecondNumber+separator;
         size_t position = line.find(phrase);
         if (position!=string::npos) {
             if (i==contactsBook.size()) {
             } else {
-                newFile<<contactsBook[i].id<<przerywnik
-                       <<currentUserId<<przerywnik
-                       <<contactsBook[i].imie<<przerywnik
-                       <<contactsBook[i].nazwisko<<przerywnik
-                       <<contactsBook[i].numerTelefonu<<przerywnik
-                       <<contactsBook[i].email<<przerywnik
-                       <<contactsBook[i].adres<<przerywnik<<endl;
+                newFile<<contactsBook[i].id<<separator
+                       <<currentUserId<<separator
+                       <<contactsBook[i].name<<separator
+                       <<contactsBook[i].surname<<separator
+                       <<contactsBook[i].tel<<separator
+                       <<contactsBook[i].email<<separator
+                       <<contactsBook[i].address<<separator<<endl;
             }
 
         } else {
